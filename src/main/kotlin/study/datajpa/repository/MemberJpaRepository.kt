@@ -16,5 +16,5 @@ class MemberJpaRepository(em: EntityManager) {
         return member
     }
 
-    fun find(id: Long?): Member = em.find(Member::class.java, id)
+    fun find(id: Long): Member = em.find(Member::class.java, id)
 }

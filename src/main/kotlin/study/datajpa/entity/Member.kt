@@ -9,7 +9,8 @@ class Member(username: String) {
 
     @Id
     @GeneratedValue
-    var id: Long? = null
+    var id: Long = 0
 
     var username: String = username
+        protected set
 }

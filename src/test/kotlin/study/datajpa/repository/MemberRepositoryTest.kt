@@ -11,14 +11,14 @@ import study.datajpa.entity.Member
 @SpringBootTest
 @Transactional
 @Rollback(false)
-internal class MemberJpaRepositoryTest(@Autowired val memberJpaRepository: MemberJpaRepository) {
+internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepository) {
 
     @Test
     internal fun testMember() {
-        val member = Member("memberA1")
-        val savedMember = memberJpaRepository.save(member)
+        val member = Member("memberA2")
+        val savedMember = memberRepository.save(member)
 
-        val findMember = memberJpaRepository.find(savedMember.id)
+        val findMember = memberRepository.findById(savedMember.id).get()
 
         assertThat(findMember.id).isEqualTo(member.id)
         assertThat(findMember.username).isEqualTo(member.username)
