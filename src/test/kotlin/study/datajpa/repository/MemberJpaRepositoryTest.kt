@@ -15,7 +15,7 @@ internal class MemberJpaRepositoryTest(@Autowired val memberJpaRepository: Membe
 
     @Test
     internal fun testMember() {
-        val member = Member("memberA1")
+        val member = Member("memberA1", 10)
         val savedMember = memberJpaRepository.save(member)
 
         val findMember = memberJpaRepository.find(savedMember.id)

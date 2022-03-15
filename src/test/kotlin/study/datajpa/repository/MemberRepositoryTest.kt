@@ -15,7 +15,7 @@ internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepos
 
     @Test
     internal fun testMember() {
-        val member = Member("memberA2")
+        val member = Member("memberA2", 10)
         val savedMember = memberRepository.save(member)
 
         val findMember = memberRepository.findById(savedMember.id).get()
@@ -23,5 +23,12 @@ internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepos
         assertThat(findMember.id).isEqualTo(member.id)
         assertThat(findMember.username).isEqualTo(member.username)
         assertThat(findMember).isEqualTo(member)
+    }
+
+    @Test
+    internal fun emptyResult() {
+        val memberOptional = memberRepository.findById(Long.MAX_VALUE)
+        println("memberOptional = $memberOptional")
+        assertThat(memberOptional).isEmpty
     }
 }
