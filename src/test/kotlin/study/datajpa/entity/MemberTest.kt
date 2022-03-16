@@ -38,7 +38,7 @@ internal class MemberTest {
         em.clear()
 
         // 확인
-        val members = em.createQuery("select m from Member m", Member::class.java)
+        val members = em.createQuery("select m from Member m join fetch m.team", Member::class.java)
             .resultList
 
         for (member in members) {

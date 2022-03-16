@@ -2,6 +2,7 @@ package study.datajpa.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType.LAZY
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
@@ -27,7 +28,7 @@ class Member(username: String, age: Int) {
 
     val age: Int = age
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "team_id")
     var team: Team? = null
 
