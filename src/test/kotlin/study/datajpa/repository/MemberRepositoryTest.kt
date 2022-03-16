@@ -66,8 +66,21 @@ internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepos
         memberRepository.save(m2)
 
         val members = memberRepository.findByUsernameAndAgeGreaterThan("AAA", 15)
-        assertThat(members.get(0).username).isEqualTo("AAA")
-        assertThat(members.get(0).age).isEqualTo(20)
+        assertThat(members[0].username).isEqualTo("AAA")
+        assertThat(members[0].age).isEqualTo(20)
+        assertThat(members).hasSize(1)
+    }
+
+    @Test
+    internal fun findUser() {
+        val m1 = Member("AAA", 10)
+        val m2 = Member("AAA", 20)
+        memberRepository.save(m1)
+        memberRepository.save(m2)
+
+        val members = memberRepository.findUser("AAA", 10)
+        assertThat(members[0].username).isEqualTo("AAA")
+        assertThat(members[0].age).isEqualTo(10)
         assertThat(members).hasSize(1)
     }
 }
