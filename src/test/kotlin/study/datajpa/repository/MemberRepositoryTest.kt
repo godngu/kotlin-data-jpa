@@ -31,4 +31,30 @@ internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepos
         println("memberOptional = $memberOptional")
         assertThat(memberOptional).isEmpty
     }
+
+    @Test
+    internal fun basicCRUD() {
+        val member1 = Member("member1", 10)
+        val member2 = Member("member2", 20)
+        memberRepository.save(member1)
+        memberRepository.save(member2)
+
+        val findMember1 = memberRepository.findById(member1.id).get()
+        val findMember2 = memberRepository.findById(member2.id).get()
+        assertThat(findMember1).isEqualTo(member1)
+        assertThat(findMember2).isEqualTo(member2)
+
+        val all = memberRepository.findAll()
+        assertThat(all.size).isEqualTo(2)
+        assertThat(all).hasSize(2)
+
+        val count = memberRepository.count()
+        assertThat(count).isEqualTo(2)
+
+        memberRepository.delete(member1)
+        memberRepository.delete(member2)
+
+        val deletedCount = memberRepository.count()
+        assertThat(deletedCount).isEqualTo(0)
+    }
 }
