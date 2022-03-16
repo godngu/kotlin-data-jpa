@@ -57,4 +57,17 @@ internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepos
         val deletedCount = memberRepository.count()
         assertThat(deletedCount).isEqualTo(0)
     }
+
+    @Test
+    internal fun findByUsernameAndAgeGreaterThen() {
+        val m1 = Member("AAA", 10)
+        val m2 = Member("AAA", 20)
+        memberRepository.save(m1)
+        memberRepository.save(m2)
+
+        val members = memberRepository.findByUsernameAndAgeGreaterThan("AAA", 15)
+        assertThat(members.get(0).username).isEqualTo("AAA")
+        assertThat(members.get(0).age).isEqualTo(20)
+        assertThat(members).hasSize(1)
+    }
 }
