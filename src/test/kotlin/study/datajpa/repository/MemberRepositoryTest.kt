@@ -7,11 +7,16 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
 import study.datajpa.entity.Member
+import study.datajpa.entity.Team
+import study.datajpa.entity.TeamRepository
 
 @SpringBootTest
 @Transactional
 @Rollback(false)
-internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepository) {
+internal class MemberRepositoryTest {
+
+    @Autowired lateinit var memberRepository: MemberRepository
+    @Autowired lateinit var teamRepository: TeamRepository
 
     @Test
     internal fun testMember() {
@@ -82,5 +87,33 @@ internal class MemberRepositoryTest(@Autowired val memberRepository: MemberRepos
         assertThat(members[0].username).isEqualTo("AAA")
         assertThat(members[0].age).isEqualTo(10)
         assertThat(members).hasSize(1)
+    }
+
+    @Test
+    internal fun findUsernameList() {
+        val m1 = Member("AAA", 10)
+        val m2 = Member("BBB", 20)
+        memberRepository.save(m1)
+        memberRepository.save(m2)
+
+        val usernameList = memberRepository.findUsernameList()
+        for (username in usernameList) {
+            println("username = $username")
+        }
+    }
+
+    @Test
+    internal fun findMemberDto() {
+        val team = Team("teamA")
+        teamRepository.save(team)
+
+        val m1 = Member("AAA", 10)
+        m1.team = team
+        memberRepository.save(m1)
+
+        val memberDto = memberRepository.findMemberDto()
+        for (dto in memberDto) {
+            println("dto = $dto")
+        }
     }
 }
