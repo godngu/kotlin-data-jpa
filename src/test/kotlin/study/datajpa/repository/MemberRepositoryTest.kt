@@ -4,10 +4,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
+import study.datajpa.dto.MemberDto
 import study.datajpa.entity.Member
 import study.datajpa.entity.Team
 import study.datajpa.entity.TeamRepository
@@ -189,7 +191,14 @@ internal class MemberRepositoryTest {
         val pageRequest = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "username"))
 
         // when
-        val page = memberRepository.findPageByAge(age, pageRequest)
+        val page: Page<Member> = memberRepository.findPageByAge(age, pageRequest)
+
+        /**
+         * api 응답으로 반환할 수 있는 dto 형태로 매핑한다.
+         */
+        val toMap: Page<MemberDto> = page.map { member -> MemberDto(member.id, member.username, member.team?.name) }
+        println("toMap = $toMap")
+        println("{toMap.content} = ${toMap.content}")
 
         // then
         val content = page.content

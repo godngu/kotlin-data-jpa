@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
-import study.datajpa.dto.MemberDto
+import study.datajpa.dto.MemberProjection
 import study.datajpa.entity.Member
 import java.util.Optional
 
@@ -19,7 +19,7 @@ interface MemberRepository : JpaRepository<Member, Long> {
     fun findUsernameList(): List<String>
 
     @Query("select m.id, m.username, t.name from Member m join m.team t")
-    fun findMemberDto(): List<MemberDto>
+    fun findMemberDto(): List<MemberProjection>
 
     @Query("select m from Member m where m.username in :names")
     fun findByNames(@Param("names") names: List<String>): List<Member>
