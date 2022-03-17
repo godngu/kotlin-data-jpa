@@ -132,4 +132,18 @@ internal class MemberRepositoryTest {
             println(member)
         }
     }
+
+    @Test
+    internal fun returnType() {
+        val m1 = Member("AAA", 10)
+        val m2 = Member("BBB", 20)
+        memberRepository.save(m1)
+        memberRepository.save(m2)
+
+        val members = memberRepository.findByNames(listOf("AAA", "BBB"))
+        assertThat(members).hasSize(2)
+        for (member in members) {
+            println(member)
+        }
+    }
 }
