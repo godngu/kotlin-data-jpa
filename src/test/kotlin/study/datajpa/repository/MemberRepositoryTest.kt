@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
 import study.datajpa.entity.Member
@@ -145,5 +147,31 @@ internal class MemberRepositoryTest {
         for (member in members) {
             println(member)
         }
+    }
+
+    @Test
+    internal fun paging() {
+        // given
+        memberRepository.save(Member("member1", 10))
+        memberRepository.save(Member("member2", 10))
+        memberRepository.save(Member("member3", 10))
+        memberRepository.save(Member("member4", 10))
+        memberRepository.save(Member("member5", 10))
+
+        val age = 10
+        val size = 3
+        val pageRequest = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "username"))
+
+        // when
+        val page = memberRepository.findByAge(age, pageRequest)
+
+        // then
+        val content = page.content
+        assertThat(content.size).isEqualTo(3)
+        assertThat(page.totalElements).isEqualTo(5)
+        assertThat(page.number).isEqualTo(0)
+        assertThat(page.totalPages).isEqualTo(2)
+        assertThat(page.isFirst).isTrue
+        assertThat(page.hasNext()).isTrue
     }
 }
