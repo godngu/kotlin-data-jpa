@@ -15,8 +15,10 @@ import study.datajpa.entity.TeamRepository
 @Rollback(false)
 internal class MemberRepositoryTest {
 
-    @Autowired lateinit var memberRepository: MemberRepository
-    @Autowired lateinit var teamRepository: TeamRepository
+    @Autowired
+    lateinit var memberRepository: MemberRepository
+    @Autowired
+    lateinit var teamRepository: TeamRepository
 
     @Test
     internal fun testMember() {
@@ -114,6 +116,20 @@ internal class MemberRepositoryTest {
         val memberDto = memberRepository.findMemberDto()
         for (dto in memberDto) {
             println("dto = $dto")
+        }
+    }
+
+    @Test
+    internal fun findByNames() {
+        val m1 = Member("AAA", 10)
+        val m2 = Member("BBB", 20)
+        memberRepository.save(m1)
+        memberRepository.save(m2)
+
+        val members = memberRepository.findByNames(listOf("AAA", "BBB"))
+        assertThat(members).hasSize(2)
+        for (member in members) {
+            println(member)
         }
     }
 }
