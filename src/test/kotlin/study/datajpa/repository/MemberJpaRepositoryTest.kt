@@ -63,4 +63,26 @@ internal class MemberJpaRepositoryTest(@Autowired val memberJpaRepository: Membe
         assertThat(members.get(0).age).isEqualTo(20)
         assertThat(members).hasSize(1)
     }
+
+    @Test
+    internal fun paging() {
+        // given
+        memberJpaRepository.save(Member("member1", 10))
+        memberJpaRepository.save(Member("member2", 10))
+        memberJpaRepository.save(Member("member3", 10))
+        memberJpaRepository.save(Member("member4", 10))
+        memberJpaRepository.save(Member("member5", 10))
+
+        val age = 10
+        val offset = 0
+        val limit = 3
+
+        // when
+        val members = memberJpaRepository.findByPage(age, offset, limit)
+        val totalCount = memberJpaRepository.totalCount(age)
+
+        // then
+        assertThat(members.size).isEqualTo(3)
+        assertThat(totalCount).isEqualTo(5)
+    }
 }
