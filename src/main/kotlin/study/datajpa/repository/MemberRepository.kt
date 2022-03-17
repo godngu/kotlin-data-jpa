@@ -31,4 +31,13 @@ interface MemberRepository : JpaRepository<Member, Long> {
     fun findOptionalMemberByUsername(username: String): Optional<Member>
 
     fun findByAge(age: Int, pageable: Pageable): Page<Member>
+
+    /**
+     * 페이징시 totalCount 쿼리에서는 조인이 불필요 하므로 별도의 쿼리를 사용하도록 설정한다.
+     */
+    @Query(
+        value = "select m from Member m left join m.team t where m.age = :age",
+        countQuery = "select count(m) from Member m where m.age = :age"
+    )
+    fun findPageByAge(@Param("age") age: Int, pageable: Pageable): Page<Member>
 }

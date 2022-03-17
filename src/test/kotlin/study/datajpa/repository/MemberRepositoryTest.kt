@@ -174,4 +174,30 @@ internal class MemberRepositoryTest {
         assertThat(page.isFirst).isTrue
         assertThat(page.hasNext()).isTrue
     }
+
+    @Test
+    internal fun paging_custom_totalCount() {
+        // given
+        memberRepository.save(Member("member1", 10))
+        memberRepository.save(Member("member2", 10))
+        memberRepository.save(Member("member3", 10))
+        memberRepository.save(Member("member4", 10))
+        memberRepository.save(Member("member5", 10))
+
+        val age = 10
+        val size = 3
+        val pageRequest = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "username"))
+
+        // when
+        val page = memberRepository.findPageByAge(age, pageRequest)
+
+        // then
+        val content = page.content
+        assertThat(content.size).isEqualTo(3)
+        assertThat(page.totalElements).isEqualTo(5)
+        assertThat(page.number).isEqualTo(0)
+        assertThat(page.totalPages).isEqualTo(2)
+        assertThat(page.isFirst).isTrue
+        assertThat(page.hasNext()).isTrue
+    }
 }
