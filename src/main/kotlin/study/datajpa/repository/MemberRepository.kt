@@ -9,7 +9,7 @@ import study.datajpa.dto.MemberProjection
 import study.datajpa.entity.Member
 import java.util.Optional
 
-interface MemberRepository : JpaRepository<Member, Long> {
+interface MemberRepository : JpaRepository<Member, Long>, MemberRepositoryCustom {
     fun findByUsernameAndAgeGreaterThan(username: String, age: Int): List<Member>
 
     @Query("select m from Member m where m.username = :username and m.age = :age")

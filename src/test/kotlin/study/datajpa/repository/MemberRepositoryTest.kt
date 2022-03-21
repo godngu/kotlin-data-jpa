@@ -209,4 +209,10 @@ internal class MemberRepositoryTest {
         assertThat(page.isFirst).isTrue
         assertThat(page.hasNext()).isTrue
     }
+
+    @Test
+    internal fun callCustom() {
+        val result = memberRepository.findMemberCustom()
+        println("result = $result")
+    }
 }
