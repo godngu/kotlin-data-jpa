@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne
 typealias MemberId = Long
 
 @Entity
-class Member(username: String, age: Int) : JpaBaseEntity() {
+class Member(username: String, age: Int) : BaseEntity() {
 
     constructor(username: String, age: Int, team: Team) : this(username, age) {
         if (team != null) {
