@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne
 typealias MemberId = Long
 
 @Entity
-class Member(username: String, age: Int) {
+class Member(username: String, age: Int) : JpaBaseEntity() {
 
     constructor(username: String, age: Int, team: Team) : this(username, age) {
         if (team != null) {
@@ -24,7 +24,7 @@ class Member(username: String, age: Int) {
     @Column(name = "member_id")
     var id: MemberId = 0
 
-    val username: String = username
+    var username: String = username
 
     val age: Int = age
 
