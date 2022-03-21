@@ -25,10 +25,10 @@ abstract class BaseEntity {
 
     @CreatedBy
     @Column(updatable = false)
-    var createdBy: String? = null
+    var createdBy: String = ""
         protected set
 
     @LastModifiedBy
-    var lastModifiedBy: String? = null
+    var lastModifiedBy: String = ""
         protected set
 }
